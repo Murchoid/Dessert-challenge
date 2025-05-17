@@ -9,10 +9,10 @@
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="././public/assets/images/favicon-32x32.png"
+      href=".//assets/images/favicon-32x32.png"
     />
     <link rel="stylesheet" href="./src/style.css" />
-    <script src="index.js"></script>
+    <script type="module" src="./src/main.ts"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -38,128 +38,39 @@
         <h1 id="dessert-header">Desserts</h1>
       <section id="main">
         
-
-        <div class="cards">
-          <div class="images">
-            <img src="./public/assets/images/image-waffle-desktop.jpg" alt="" />
-          </div>
-          <h3 class="product-title">Waffle</h3>
-          <p class="product-name">Waffle with Berries</p>
-
-          <strong class="price">6.50 </strong>
-          <div class="add-to-cart">
-            <img src="./public/assets/images/icon-add-to-cart.svg" alt="" /> Add to Cart
-          </div>
-        </div>
-
-        <div class="cards">
-          <div class="images">
-            <img src="./public/assets/images/image-creme-brulee-desktop.jpg" alt="" />
-          </div>
-          <h3 class="product-title">Crème Brûlée</h3>
-          <p class="product-name">Vanilla Bean Crème Brûlée</p>
-
-          <strong class="price">7.00</strong>
-          <div class="add-to-cart">
-            <img src="./public/assets/images/icon-add-to-cart.svg" alt="" />Add to Cart
-          </div>
-        </div>
-
-        <div class="cards">
-          <div class="images">
-            <img src="./public/assets/images/image-macaron-desktop.jpg" alt="" />
-          </div>
-          <h3 class="product-title">Macaron</h3>
-
-          <p class="product-name">Macaron Mix of Five</p>
-          <strong class="price">8.00</strong>
-          <div class="add-to-cart">
-            <img src="./public/assets/images/icon-add-to-cart.svg" alt="" />Add to Cart
-          </div>
-        </div>
-
-        <div class="cards">
-          <div class="images">
-            <img src="./public/assets/images/image-tiramisu-desktop.jpg" alt="" />
-          </div>
-          <h3 class="product-title">Tiramisu</h3>
-          <p class="product-name">Classic Tiramisu</p>
-          <strong class="price">5.50</strong>
-          <div class="add-to-cart">
-            <img src="./public/assets/images/icon-add-to-cart.svg" alt="" />Add to Cart
-          </div>
-        </div>
-
-        <div class="cards">
-          <div class="images">
-            <img src="./public/assets/images/image-baklava-desktop.jpg" alt="" />
-          </div>
-          <h3 class="product-title">Baklava</h3>
-          <p class="product-name">Pistachio Baklava</p>
-          <strong class="price">4.00</strong>
-          <div class="add-to-cart">
-            <img src="./public/assets/images/icon-add-to-cart.svg" alt="" />Add to Cart
-          </div>
-        </div>
-
-        <div class="cards">
-          <div class="images">
-            <img src="./public/assets/images/image-meringue-tablet.jpg" alt="" />
-          </div>
-          <h3 class="product-title">Pie</h3>
-          <p class="product-name">Lemon Meringue Pie</p>
-          <strong class="price">5.00 </strong>
-          <div class="add-to-cart">
-            <img src="./public/assets/images/icon-add-to-cart.svg" alt="" />Add to Cart
-          </div>
-        </div>
-
-        <div class="cards">
-          <div class="images">
-            <img src="./public/assets/images/image-cake-desktop.jpg" alt="" />
-          </div>
-          <h3 class="product-title">Cake</h3>
-          <p class="product-name">Red Velvet Cake</p>
-          <strong class="price"> 4.50 </strong>
-          <div class="add-to-cart">
-            <img src="./public/assets/images/icon-add-to-cart.svg" alt="" />Add to Cart
-          </div>
-        </div>
-
-        <div class="cards">
-          <div class="images">
-            <img src="./public/assets/images/image-brownie-desktop.jpg" alt="" />
-          </div>
-          <h3 class="product-title">Brownie</h3>
-          <p class="product-name">Salted Caramel Brownie</p>
-          <strong class="price">4.50</strong>
-          <div class="add-to-cart">
-            <img src="./public/assets/images/icon-add-to-cart.svg" alt="" />Add to Cart
-          </div>
-        </div>
-
-        <div class="cards">
-          <div class="images">
-            <img src="./public/assets/images/image-panna-cotta-desktop.jpg" alt="" />
-          </div>
-          <h3 class="product-title">Panna Cotta</h3>
-          <p class="product-name">Vanilla Panna Cotta</p>
-          <strong class="price">6.50</strong>
-          <div class="add-to-cart">
-            <img src="./public/assets/images/icon-add-to-cart.svg" alt="" />Add to Cart
-          </div>
-        </div>
       </section>
       </section>
 
-      <aside id="cart">
+      <section>
+        <aside id="cart">
         <h2>Your Cart (<strong class="amount-in-cart">0</strong> )</h2>
-        <div class="cart-info">
-          <img src="./public/assets/images/illustration-empty-cart.svg" alt="" />
-        <p class="cart-par">Your added items will appear here</p>
-      
+        <div class="cart-items">
+          <div class="items-in-cart">
+            <h3 class="cart-prod-name"> Classic Tiramisu</h3>
+            <div class="cart-items-info">
+              <p><strong class="no-of-item">1x</strong><em class="price-in-cart">@5.50</em> <strong class="total-price">$5.50</strong></p>
+              <img src="/assets/images/icon-remove-item.svg" alt="">
+            </div>
+          </div>
+          <hr>
+          
+          <div class="order-info">
+            <div class="order-details">
+              <h3 class="order-total">Order Total</h3>
+              <strong class="total-order-price">$40.9</strong>
+            </div>
+            <div class="carbon-free">
+              <img src="/assets/images/icon-carbon-neutral.svg" alt="">
+              <p>This is a <b>carbon-neutral</b> delivery</p>
+            </div>
+
+            <div class="confirm-order">
+              Confirm Order
+            </div>
+          </div>
         </div>  
       </aside>
+      </section>
     </main>
     <div class="attribution">
       Challenge by

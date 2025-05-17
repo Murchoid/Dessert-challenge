@@ -42,6 +42,33 @@ main{
     margin-top: 1rem;
 }
 
+.selected>.images{
+    border: 0.15rem solid var(--red);
+}
+
+.selected>.add-to-cart{
+    background-color: var(--red);
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    color: var(--rose-300-color);
+    font-size: 0.8rem;
+    width: 5rem;
+    padding: 0.7rem;
+
+}
+
+#reduce,#increment{
+    border: 0.1rem solid var(--rose-50-color);
+    border-radius: 0.7rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.1rem;
+}
+
 .product-title{
     font-size: 0.7rem;
     color: var(--rose-500-color);
@@ -93,10 +120,14 @@ main{
 
 #cart{
     background-color: white;
-    height: 15rem;
+    height: auto;
     width: 20rem;
     padding: 2rem;
     border-radius: 0.8rem;
+}
+
+#cart>h2:first-child{
+    color: var(--red);
 }
 .cart-info{
     display: flex;
@@ -106,4 +137,92 @@ main{
 }
 .cart-par{
     font-size: 0.7rem;
+}
+
+.cart-prod-name{
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-bottom: 0rem;
+}
+
+.no-of-item{
+    font-size: 0.6rem;
+}
+.price-in-cart{
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--rose-300-color);
+}
+.total-price{
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--rose-300-color);
+}
+
+
+.cart-items-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2rem;
+    
+}
+
+.cart-items-info>p{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 7rem;
+}
+
+.cart-items-info>img{
+    border: 0.1rem solid var(--rose-300-color);
+    border-radius: 0.5rem;
+    padding: 0.1rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    justify-self: flex-end;
+    margin-left: 0rem;
+    
+}
+
+.order-info{
+    display: grid;
+    gap: 1rem;
+}
+.order-details{
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-total{
+    font-size: 0.7rem;
+    color: var(--rose-300-color);
+    font-weight: 600;
+}
+.carbon-free{
+    background-color: var(--rose-50-color);
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.2rem;
+    font-size: 0.8rem;
+    color: var(--rose-500-color);
+    border-radius: 0.5rem;
+
+}
+
+.carbon-free>img{
+    width: 1rem;
+}
+
+.confirm-order{
+    background-color: var(--red);
+    color: white;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    padding: 0.7rem;
+    border-radius: 1.5rem;
+    cursor: pointer;
 }

@@ -1,15 +1,11 @@
-import data from "../public/data.json";
-import { styleCards, styleCart } from "./style-content";
+import { Products } from "./products";
+import { styleCards } from "./style-content";
+import data from "./data.json";
 
-async function fetchData(): unknown{
-  const res = await fetch("../public/data");
-  const data = await res.json();
-  if(data)
-    console.log(data);
-}
 
-fetchData();
+console.log(data);
 
-function loadData(){
+data.forEach(data =>{
+    styleCards(new Products(data.image.desktop, data.name, data.category, data.price));
+});
 
-}
