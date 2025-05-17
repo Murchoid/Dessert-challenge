@@ -2,7 +2,7 @@ import { Products } from './products';
 import { DatabaseService } from './database';
 
 const db = new DatabaseService();
-await db.initDatabase();
+db.initDatabase();
 
 export function styleCards(product: Products) {
   const mainElement = document.querySelector<HTMLDivElement>('#main')!;
