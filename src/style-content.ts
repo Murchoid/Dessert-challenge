@@ -31,13 +31,13 @@ export function styleCards(product: Products) {
 export async function styleCart() {
   const cartDiv = document.querySelector<HTMLDivElement>('#cart')!;
   const itemsInCart = await db.getAllItems();
-  if (itemsInCart) {
+  if (itemsInCart.length>0) {
     cartDiv.innerHTML =  `<h2>Your Cart (<strong class="amount-in-cart">${itemsInCart.length}</strong> )</h2> `
     itemsInCart.forEach((item) => {
       const div = document.createElement('div');
 
       div.innerHTML += `
-        <div class="cart-items">
+        <div class="cart-items" id="item-${item.id}">
           <div class="items-in-cart">
             <h3 class="cart-prod-name">${item.product.name}</h3>
             <div class="cart-items-info">
@@ -46,7 +46,7 @@ export async function styleCart() {
               }</em> <strong class="total-price">$${
         item.product.price * item.numbers
       }</strong></p>
-              <img src="./public/assets/images/icon-remove-item.svg" alt="">
+              <img src="./public/assets/images/icon-remove-item.svg" alt="" class="remove-cart">
             </div>
           </div>
           <hr>
@@ -82,26 +82,27 @@ export async function styleCart() {
 
 export function eventListeners() {
   const buttons = document.querySelectorAll<HTMLElement>('.add-to-cart');
-
+  const removeCartBtn = document.querySelectorAll<HTMLElement>('.remove-cart');
   if (buttons) {
     buttons.forEach((button) => {
       button.addEventListener('click', () => {
         let count = 1;
         const parentDiv = button.closest('.cards');
+        console.log(parentDiv);
         if (parentDiv) {
           parentDiv.classList = 'cards selected';
           button.innerHTML = `<div id="reduce" onclick= "decreaseInCart()"><img src="./public/assets/images/icon-decrement-quantity.svg" alt=""></div>
             <strong class="amount-selected">${count}</strong>
             <div id="increment" onclick= "${() =>count++}"><img src="./public/assets/images//icon-increment-quantity.svg" alt=""></div>
             `;
-          const img = parentDiv.closest('.images')?.closest('img')
-            ?.src as string;
-          const name = parentDiv.closest('.product-name')
+          const img = parentDiv.querySelector('.images')!.querySelector('img')!.src as string;
+            
+          const name = parentDiv.querySelector('.product-name')
             ?.textContent as string;
-          const title = parentDiv.closest('.product-title')
+          const title = parentDiv.querySelector('.product-title')
             ?.textContent as string;
           const price = parseInt(
-            parentDiv.closest('.price')?.textContent as string
+            parentDiv.querySelector('.price')?.textContent as string
           );
 
           db.addToCart(name, img, title, price);
@@ -110,4 +111,23 @@ export function eventListeners() {
       });
     });
   }
+
+
+  if(removeCartBtn){
+   removeCartBtn.forEach(btn=>{
+      const parentDiv = btn.closest(".remove-cart");
+      const id = parseInt(parentDiv!.id);
+
+      deleteItemFromCart(id);
+
+      styleCart();
+   })
+
+  }
+}
+
+
+
+async function deleteItemFromCart(id: number){
+  await db.deleteItem(id);
 }

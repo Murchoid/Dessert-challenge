@@ -2,6 +2,7 @@
 import { Products } from './products';
 
 interface cart{
+    id: number,
     product: Products,
     numbers: number,
 }
