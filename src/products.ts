@@ -10,4 +10,8 @@ export class Products{
         this.category = _category;
         this.price = _price;
     }
+
+    getName(){
+        return this.name;
+    }
 }
