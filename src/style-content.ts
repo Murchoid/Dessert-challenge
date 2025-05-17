@@ -55,3 +55,24 @@ export function styleCart(itemsInCart: Products) {
     `;
   }
 }
+
+
+export function eventListeners(){
+
+  const buttons = document.querySelectorAll<HTMLElement>(".add-to-cart");
+
+  if(buttons){
+    buttons.forEach(button=>{
+      button.addEventListener("click", ()=>{
+        const parentDiv = button.closest(".cards")!;
+        parentDiv.classList = "cards selected";
+        button.innerHTML = 
+            `<div id="reduce"><img src="./public/assets/images/icon-decrement-quantity.svg" alt=""></div>
+            <strong class="amount-selected">1</strong>
+            <div id="increment"><img src="./public/assets/images//icon-increment-quantity.svg" alt=""></div>
+            `;
+      })
+    })
+  }
+
+}
