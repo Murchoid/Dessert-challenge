@@ -43,8 +43,8 @@ export class DatabaseService {
     }
 
     // CRUD Operations for cart items
-    async addToCart(_name: string|null, _image:string|null, _category: string|null, _price: number|null): Promise<void> {
-        const item: cart = {product: new Products(_image,_name,_category, _price), numbers: 1};
+    async addToCart(_name: string, _image:string, _category: string, _price: number): Promise<void> {
+        const item = {product: new Products(_image,_name,_category, _price), numbers: 1};
         return new Promise((resolve, reject) => {
             const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
             const store = transaction.objectStore(this.STORE_NAME);
