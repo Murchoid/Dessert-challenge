@@ -1,11 +1,6 @@
 // database.service.ts
 import { Products } from './products';
-
-interface cart{
-    id: number,
-    product: Products,
-    numbers: number,
-}
+import type { cart } from "./cart.interface";
 
 export class DatabaseService {
     private db: IDBDatabase | null = null;
@@ -43,7 +38,7 @@ export class DatabaseService {
     }
 
     // CRUD Operations for cart items
-    async addToCart(_name: string, _image:string, _category: string, _price: number): Promise<void> {
+    async addToCart(_id: string, _name: string, _image:string, _category: string, _price: number): Promise<void> {
         const item = {product: new Products(_image,_name,_category, _price), numbers: 1};
         return new Promise((resolve, reject) => {
             const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
@@ -55,7 +50,7 @@ export class DatabaseService {
         });
     }
 
-    async increaseCart(id: number, quantity: number): Promise<void> {
+    async increaseCart(id: string, quantity: number): Promise<void> {
         return new Promise((resolve, reject) => {
             const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
             const store = transaction.objectStore(this.STORE_NAME);
@@ -73,7 +68,7 @@ export class DatabaseService {
         });
     }
 
-    async decrease(id: number, quantity: number): Promise<void> {
+    async decrease(id: string, quantity: number): Promise<void> {
         return new Promise((resolve, reject) => {
             const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
             const store = transaction.objectStore(this.STORE_NAME);
@@ -91,7 +86,7 @@ export class DatabaseService {
         });
     }
 
-    async deleteItem(id: number): Promise<void> {
+    async deleteItem(id: string): Promise<void> {
         return new Promise((resolve, reject) => {
             const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
             const store = transaction.objectStore(this.STORE_NAME);

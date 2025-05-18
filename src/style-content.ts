@@ -1,14 +1,18 @@
 import { Products } from './products';
+import type {cart} from "./cart.interface";
 import { DatabaseService } from './database';
 
-const db = new DatabaseService();
-db.initDatabase();
 
-export function styleCards(product: Products) {
+
+let id = 1;
+export async function initUI(product: Products) {
+
   const mainElement = document.querySelector<HTMLDivElement>('#main')!;
   const div = document.createElement('div');
   div.className = 'cards';
+ 
   if (mainElement) {
+    div.setAttribute("id", `item-${id++}`);
     div.innerHTML = ` 
             
               <div class="images">
@@ -28,13 +32,20 @@ export function styleCards(product: Products) {
   }
 }
 
-export async function styleCart() {
+
+export function initCart(cartItems: cart[]){
+
   const cartDiv = document.querySelector<HTMLDivElement>('#cart')!;
-  const itemsInCart = await db.getAllItems();
-  if (itemsInCart.length>0) {
-    cartDiv.innerHTML =  `<h2>Your Cart (<strong class="amount-in-cart">${itemsInCart.length}</strong> )</h2> `
-    itemsInCart.forEach((item) => {
+  let orderTotal = 0;
+
+  if (cartItems.length>0) {
+
+    cartDiv.innerHTML =  `<h2>Your Cart (<strong class="amount-in-cart">${cartItems.length}</strong> )</h2> `
+    
+    cartItems.forEach((item) => {
+
       const div = document.createElement('div');
+      orderTotal += item.product.price * item.numbers;
 
       div.innerHTML += `
         <div class="cart-items" id="item-${item.id}">
@@ -43,9 +54,7 @@ export async function styleCart() {
             <div class="cart-items-info">
               <p><strong class="no-of-item">1x</strong><em class="price-in-cart">@${
                 item.product.price
-              }</em> <strong class="total-price">$${
-        item.product.price * item.numbers
-      }</strong></p>
+              }</em> <strong class="total-price">$${item.product.price * item.numbers}</strong></p>
               <img src="./public/assets/images/icon-remove-item.svg" alt="" class="remove-cart">
             </div>
           </div>
@@ -53,11 +62,13 @@ export async function styleCart() {
       `;
 
       cartDiv.append(div);
+
     });
+
     cartDiv.innerHTML += `<div class="order-info">
             <div class="order-details">
               <h3 class="order-total">Order Total</h3>
-              <strong class="total-order-price">$40.9</strong>
+              <strong class="total-order-price">$${orderTotal}</strong>
             </div>
             <div class="carbon-free">
               <img src="/assets/images/icon-carbon-neutral.svg" alt="">
@@ -79,22 +90,24 @@ export async function styleCart() {
     `;
   }
 }
+  
+ export function loadCart(db: DatabaseService, cartItems: cart[]){
+     const buttons = document.querySelectorAll<HTMLElement>('.add-to-cart');
 
-export function eventListeners() {
-  const buttons = document.querySelectorAll<HTMLElement>('.add-to-cart');
-  const removeCartBtn = document.querySelectorAll<HTMLElement>('.remove-cart');
   if (buttons) {
     buttons.forEach((button) => {
       button.addEventListener('click', () => {
-        let count = 1;
+
         const parentDiv = button.closest('.cards');
-        console.log(parentDiv);
+ 
         if (parentDiv) {
           parentDiv.classList = 'cards selected';
-          button.innerHTML = `<div id="reduce" onclick= "decreaseInCart()"><img src="./public/assets/images/icon-decrement-quantity.svg" alt=""></div>
-            <strong class="amount-selected">${count}</strong>
-            <div id="increment" onclick= "${() =>count++}"><img src="./public/assets/images//icon-increment-quantity.svg" alt=""></div>
+          button.innerHTML = `<div id="reduce" ><img src="./public/assets/images/icon-decrement-quantity.svg" alt=""></div>
+            <strong class="amount-selected">1</strong>
+            <div id="increment" ><img src="./public/assets/images//icon-increment-quantity.svg" alt=""></div>
             `;
+          
+          const id = parentDiv.id;
           const img = parentDiv.querySelector('.images')!.querySelector('img')!.src as string;
             
           const name = parentDiv.querySelector('.product-name')
@@ -105,29 +118,23 @@ export function eventListeners() {
             parentDiv.querySelector('.price')?.textContent as string
           );
 
-          db.addToCart(name, img, title, price);
-          styleCart();
+          db.addToCart(id,name, img, title, price);
         }
       });
     });
   }
 
+  initCart(cartItems);
+ }
 
-  if(removeCartBtn){
-   removeCartBtn.forEach(btn=>{
-      const parentDiv = btn.closest(".remove-cart");
-      const id = parseInt(parentDiv!.id);
+export function deleteItem(db: DatabaseService){
 
-      deleteItemFromCart(id);
+  document.querySelectorAll<HTMLElement>('.remove-cart').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const parentDiv = btn.closest(".remove-cart");
+        const id = parentDiv!.id;
 
-      styleCart();
+      db.deleteItem(id);
+      });  
    })
-
-  }
-}
-
-
-
-async function deleteItemFromCart(id: number){
-  await db.deleteItem(id);
 }
