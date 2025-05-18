@@ -42,6 +42,48 @@
       </section>
 
       <section>
+        <div class="modal-complete">
+          <h1 class="checkout-title">Order Confirmed</h1>
+          <p class="checkout-par">We hope you enjoy your food</p>
+          <div class="cart-items" id="cart-item-${item.id}">
+          <div class="items-in-cart">
+            <img src="./public/assets/images/image-baklava-tablet.jpg" alt="" width="50px">
+            <h3 class="cart-prod-name">Caramel</h3>
+            <div class="cart-items-info">
+              <p>
+                <div class="quantity-btn decrement" data-id="${item.id}">
+                  <img src="./assets/images/icon-decrement-quantity.svg" alt="">
+                </div>
+                <strong class="no-of-item">1x</strong>
+                <em class="price-in-cart">@$5.50</em> 
+                <strong class="total-price">$7.0</strong>
+                <div class="quantity-btn increment" data-id="${item.id}">
+                  <img src="./assets/images/icon-increment-quantity.svg" alt="">
+                </div>
+              </p>
+              <img src="./assets/images/icon-remove-item.svg" alt="" class="remove-cart" data-id="${item.id}">
+            </div>
+          </div>
+          <hr>
+
+          <div class="order-info">
+        <div class="order-details">
+          <h3 class="order-total">Order Total</h3>
+          <strong class="total-order-price">$40.0</strong>
+        </div>
+        <div class="carbon-free">
+          <img src="/assets/images/icon-carbon-neutral.svg" alt="">
+          <p>This is a <b>carbon-neutral</b> delivery</p>
+        </div>
+        <div class="start-order">
+          Start new Order
+        </div>
+      </div>
+        </div>
+        </div>
+      </section>
+
+      <section>
         <aside id="cart">
         
               

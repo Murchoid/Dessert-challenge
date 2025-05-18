@@ -115,6 +115,8 @@ function setupCartEventListeners(db: DatabaseService) {
       db.updateQuantity(itemId, -1);
     });
   });
+
+
 }
 
 export function loadCart(db: DatabaseService, cartItems: cart[]) {
@@ -160,6 +162,7 @@ export function loadCart(db: DatabaseService, cartItems: cart[]) {
       }
     });
   });
+
 
   initCart(db, cartItems);
 }

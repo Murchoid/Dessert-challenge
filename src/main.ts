@@ -51,6 +51,26 @@ function setupCartListeners() {
             await db.deleteItem(id);
             refreshCart();
         }
+        else if(target.closest('.confirm-order')) {
+      console.log("Confirm clicked!");
+      const modal = document.querySelector<HTMLElement>('.modal-complete');
+      if (modal) {
+        modal.style.visibility = "visible";
+        modal.style.opacity = "1";
+      }
+    }
+
+     else if(target.closest('.start-order')) {
+      console.log("Confirm clicked!");
+      const modal = document.querySelector<HTMLElement>('.modal-complete');
+      if (modal) {
+        modal.style.visibility = "hidden";
+        modal.style.opacity = "1";
+
+        await db.clearCart();
+        refreshCart();
+      }
+    }
     });
 }
 
