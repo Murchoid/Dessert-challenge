@@ -58,7 +58,7 @@ main{
 
 }
 
-#reduce,#increment{
+.decreament,.increment{
     border: 0.1rem solid var(--rose-50-color);
     border-radius: 0.7rem;
     width: 0.6rem;

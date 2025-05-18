@@ -1,4 +1,3 @@
-// database.service.ts
 import { Products } from './products';
 import type { cart } from "./cart.interface";
 
@@ -15,9 +14,7 @@ export class DatabaseService {
         return new Promise((resolve, reject) => {
             const request = indexedDB.open(this.DB_NAME, 1);
 
-
             request.onerror = () => reject(request.error);
-
 
             request.onsuccess = () => {
                 this.db = request.result;
@@ -28,60 +25,73 @@ export class DatabaseService {
                 const db = (event.target as IDBOpenDBRequest).result;
                 if (!db.objectStoreNames.contains(this.STORE_NAME)) {
                     const store = db.createObjectStore(this.STORE_NAME, {
-                        keyPath: 'id',
-                        autoIncrement: true
+                        keyPath: 'id'
                     });
-                    store.createIndex('name', 'name', { unique: false });
+                    store.createIndex('product_name', 'product.name', { unique: false });
                 }
             };
         });
     }
 
-    // CRUD Operations for cart items
-    async addToCart(_id: string, _name: string, _image:string, _category: string, _price: number): Promise<void> {
-        const item = {product: new Products(_image,_name,_category, _price), numbers: 1};
+    async addToCart(id: string, name: string, image: string, category: string, price: number): Promise<string> {
         return new Promise((resolve, reject) => {
-            const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
-            const store = transaction.objectStore(this.STORE_NAME);
-            const request = store.add(item);
+            
+            this.getItemByProductId(id).then(existingItem => {
+                const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(this.STORE_NAME);
 
-            request.onsuccess = () => resolve();
-            request.onerror = () => reject(request.error);
+                if (existingItem) {
+                    
+                    existingItem.quantity += 1;
+                    const request = store.put(existingItem);
+                    request.onsuccess = () => resolve(existingItem.id);
+                    request.onerror = () => reject(request.error);
+                } else {
+                    
+                    const item: cart = {
+                        id: id,
+                        product: new Products(image, name, category, price),
+                        quantity: 1
+                    };
+                    const request = store.add(item);
+                    request.onsuccess = () => resolve(id);
+                    request.onerror = () => reject(request.error);
+                }
+            });
         });
     }
 
-    async increaseCart(id: string, quantity: number): Promise<void> {
+    async updateQuantity(id: string, change: number): Promise<void> {
         return new Promise((resolve, reject) => {
             const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
             const store = transaction.objectStore(this.STORE_NAME);
             const request = store.get(id);
 
             request.onsuccess = () => {
-                const data = request.result;
-                if (data) {
-                    data.number = quantity;
-                    store.put(data);
-                    resolve();
+                const item = request.result;
+                if (item) {
+                    item.quantity += change;
+                    
+                    if (item.quantity <= 0) {
+                        
+                        store.delete(id).onsuccess = () => resolve();
+                    } else {
+                        
+                        store.put(item).onsuccess = () => resolve();
+                    }
                 }
             };
             request.onerror = () => reject(request.error);
         });
     }
 
-    async decrease(id: string, quantity: number): Promise<void> {
+    async getItemByProductId(productId: string): Promise<cart | null> {
         return new Promise((resolve, reject) => {
-            const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
+            const transaction = this.db!.transaction([this.STORE_NAME], 'readonly');
             const store = transaction.objectStore(this.STORE_NAME);
-            const request = store.get(id);
+            const request = store.get(productId);
 
-            request.onsuccess = () => {
-                const data = request.result;
-                if (data) {
-                    data.rating = quantity;
-                    store.put(data);
-                    resolve();
-                }
-            };
+            request.onsuccess = () => resolve(request.result || null);
             request.onerror = () => reject(request.error);
         });
     }
@@ -103,7 +113,18 @@ export class DatabaseService {
             const store = transaction.objectStore(this.STORE_NAME);
             const request = store.getAll();
 
-            request.onsuccess = () => resolve(request.result);
+            request.onsuccess = () => resolve(request.result || []);
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    async clearCart(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
+            const store = transaction.objectStore(this.STORE_NAME);
+            const request = store.clear();
+
+            request.onsuccess = () => resolve();
             request.onerror = () => reject(request.error);
         });
     }
